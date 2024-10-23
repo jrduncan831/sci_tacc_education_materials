@@ -30,7 +30,7 @@ seed: 1234 # It is not recommended to change this seed, b/c it matches EleutherA
 tasks: ["truthfulqa_mc2"]
 limit: null
 max_seq_length: 4096
-batch_size: 8
+batch_size: 2
 # It is recommended to set enable_kv_cache=False for long-context models like Llama3.1
 enable_kv_cache: True
 
