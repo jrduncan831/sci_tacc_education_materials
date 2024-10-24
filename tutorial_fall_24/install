@@ -1,4 +1,44 @@
-RC_DIR=/scratch1/07980/sli4/containers/
+#!/bin/bash
+
+# ---- Installing Jupyter Kernel ----
+
+# path to folder with jupyter notebook kernel configuration
+SRC_DIR=/home1/10156/gj3385/llm_finetune_tutorial/config_files/jupyter_kernel_config
+
+# path where local jupyter kernels are installed to
 DST_DIR=~/.local/share/jupyter/kernels/
-mkdir -p $DST_DIR
-cp -r $SRC_DIR/cnn_course_container $DST_DIR
+
+if [ -e $DST_DIR ]
+  then
+   echo "jupyter notebook kernel configuration already copied"
+  else
+   # make install directory
+   mkdir -p $DST_DIR
+   # copy materials to local tutorial directory
+   cp -r $SRC_DIR $DST_DIR
+fi
+
+
+
+
+# ---- Copying Notebook and Materials to $HOME ----
+
+# path to folder that holds the notebook and other materials
+SRC_DIR=/scratch1/07980/sli4/training/sci_tacc_education_materials/tutorial_fall_24/
+
+# path where tutorial content saved to
+DST_DIR=$HOME/training
+
+
+
+if [ -e $DST_DIR ]
+  then 
+   echo "course material already copied"
+  else
+   # make tutorial directory
+   mkdir -p $DST_DIR
+   # copy materials to local tutorial directory
+   cp -r $SRC_DIR $DST_DIR
+fi
+
+
