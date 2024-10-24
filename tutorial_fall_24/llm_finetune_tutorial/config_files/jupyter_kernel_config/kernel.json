@@ -5,7 +5,7 @@
   "--nv",
   "--bind",
   "/run/user:/run/user",
-  "/work2/10156/gj3385/frontera/ml_institute/containers/tune-container_0.10.sif",
+  "/work2/10156/gj3385/frontera/ml_institute/containers/tune-container_0.12.sif",
   "python3",
   "-m",
   "ipykernel_launcher",
@@ -13,7 +13,7 @@
   "-f",
   "{connection_file}"
  ],
- "display_name": "Torchtune Container 0.10",
+ "display_name": "Torchtune Container 0.12",
  "language": "python"
 }
 
