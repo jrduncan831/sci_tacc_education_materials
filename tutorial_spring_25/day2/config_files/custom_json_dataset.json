@@ -1,0 +1,10 @@
+[
+	{
+		"prompt": "What time is it in London?",
+		"response": "It is 10:00 AM in London.",
+	},
+	{
+		"prompt": "How many bananas?",
+		"response": "All the bananas",
+	}
+]
