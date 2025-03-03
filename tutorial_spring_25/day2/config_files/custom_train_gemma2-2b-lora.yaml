@@ -15,7 +15,7 @@
 # Tokenizer
 tokenizer:
   _component_: torchtune.models.gemma.gemma_tokenizer
-  path: /work2/10156/gj3385/frontera/ml_institute/models/gemma-2b/tokenizer.model
+  path: /tmp/models/gemma-2b/tokenizer.model
   max_seq_len: 512
 
 # Dataset
@@ -37,7 +37,7 @@ model:
 
 checkpointer:
   _component_: torchtune.training.FullModelHFCheckpointer
-  checkpoint_dir: /work2/10156/gj3385/frontera/ml_institute/models/gemma-2b/
+  checkpoint_dir: /tmp/models/gemma-2b/
   checkpoint_files: [
     model-00001-of-00002.safetensors,
     model-00002-of-00002.safetensors,
