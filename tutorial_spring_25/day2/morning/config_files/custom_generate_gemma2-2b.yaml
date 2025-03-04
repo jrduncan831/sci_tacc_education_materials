@@ -1,0 +1,48 @@
+# Config for running the InferenceRecipe in generate.py to generate output from an LLM
+#
+
+# Model arguments
+model:
+  _component_: torchtune.models.gemma.gemma_2b
+
+checkpointer:
+  _component_: torchtune.training.FullModelHFCheckpointer
+  checkpoint_dir: /tmp/models/gemma-2b/
+  checkpoint_files: [
+    model-00001-of-00002.safetensors,
+    model-00002-of-00002.safetensors,
+  ]
+  recipe_checkpoint: null
+  output_dir: ./models/
+  model_type: GEMMA
+
+device: cuda
+dtype: bf16
+
+seed: 2
+
+# Tokenizer
+tokenizer:
+  _component_: torchtune.models.gemma.gemma_tokenizer
+  path: /tmp/models/gemma-2b/tokenizer.model
+  prompt_template:
+    system:
+      - "Below is an instruction that describes a task. Write a response that appropriately completes the request."
+      - "\n\n"
+    user:
+      - "### Instruction:\n"
+      - "### Response:\n"
+
+prompt:
+  system: ''
+  user: "What are the three primary colors?\n\n"
+
+chat_format: null
+max_new_tokens: 300
+temperature: 0.95
+top_k: 300
+
+# It is recommended to set enable_kv_cache=False for long-context models like Llama3.1
+enable_kv_cache: True
+
+quantizer: null
