@@ -15,42 +15,60 @@ import torch.distributed as dist
 from datetime import datetime
 import warnings
 import shutil
+import h5py
+from torch.utils.data import Dataset, DataLoader
+from sklearn.model_selection import train_test_split
+import numpy as np
+from PIL import Image
+
 
 warnings.filterwarnings("ignore", message="torch.distributed._all_gather_base is a private function and will be deprecated. Please use torch.distributed.all_gather_into_tensor instead.")
 
 # Define the GPUs that will be used in this script
 os.environ['CUDA_VISIBLE_DEVICES'] = ",".join(str(x) for x in list(range(torch.cuda.device_count())))
 
+class MyDataset(Dataset):
+    def __init__(self, data, targets, transform=None):
+        self.data = data
+        self.targets = targets
+        self.transform = transform
+        
+    def __getitem__(self, index):
+        x = self.data[index]
+        y = self.targets[index]
+        
+        if self.transform:
+            x = Image.fromarray(self.data[index].astype(np.uint8))
+            x = self.transform(x)        
+        return x, y
+    def __len__(self):
+      return len(self.data)
+
 # Apply transformations to our data.
 # The datasets transformations are the same as the ones from part 2 of this tutorial.
-def load_datasets(train_path, val_path, test_path):
-  val_img_transform = transforms.Compose([transforms.Resize((244,244)),
-                                         transforms.ToTensor()])
-  train_img_transform = transforms.Compose([transforms.AutoAugment(),
-                                           transforms.Resize((244,244)),
-                                           transforms.ToTensor()])
-  train_dataset = datasets.ImageFolder(train_path, transform=train_img_transform)
-  val_dataset = datasets.ImageFolder(val_path, transform=val_img_transform) 
-  test_dataset = datasets.ImageFolder(test_path, transform=val_img_transform) if test_path is not None else None
-  
-  rank = int(os.environ['RANK'])
-  if rank == 0:
-    print(f"Train set size: {len(train_dataset)}, Validation set size: {len(val_dataset)}")
-  return train_dataset, val_dataset, test_dataset
+def load_datasets(images, labels):
+  data_train, data_valid, y_train, y_valid = train_test_split(images, labels, test_size=0.2, random_state=42)
+  transform_train = transforms.Compose([transforms.AutoAugment(),  
+                                transforms.Resize((224,224)),
+                                transforms.ToTensor()])
+  train_dataset = MyDataset(data_train, y_train, transform=transform_train)
+                                      
+  transform_val = transforms.Compose([transforms.Resize((224,224)),
+                                      transforms.ToTensor()])                                     
+  val_dataset = MyDataset(data_valid, y_valid, transform=transform_val)
+  return train_dataset, val_dataset
+
 
 # Construct Dataloaders
 # The DistributedSampler we use here restricts data loading to a subset of the dataset.
 # In conjunction with DistributedDataParallel (shows up later in this tutorial), each process can pass a DistributedSampler instance as a DataLoader sampler, and load a subset of the original dataset that is exclusive to it.
-def construct_dataloaders(train_set, val_set, test_set, batch_size, shuffle=True):  
+def construct_dataloaders(train_set, val_set, batch_size, shuffle=True):  
   train_sampler = DistributedSampler(dataset=train_set,shuffle=shuffle)
   val_sampler = DistributedSampler(dataset=val_set, shuffle=False)
-  test_sampler = DistributedSampler(dataset=test_set, shuffle=False) if test_set is not None else None
   
   train_dataloader = torch.utils.data.DataLoader(train_set,batch_size=batch_size,sampler=train_sampler,num_workers=4,pin_memory=True)
   val_dataloader = torch.utils.data.DataLoader(val_set,batch_size=batch_size,sampler=val_sampler,num_workers=4)
-  test_dataloader = torch.utils.data.DataLoader(test_aset, batch_size, sampler=test_sampler,num_workers=4) if test_set is not None else None
-    
-  return train_dataloader, val_dataloader, test_dataloader
+  return train_dataloader, val_dataloader
 
 
 # Building the Neural Network
@@ -195,8 +213,6 @@ def cleanup():
     
 def main():
   hp = {"lr":1e-4, "batch_size":16, "epochs":5}
-  # Please specify the path to train, cross_validation, and test images below:
-  train_path, val_path, test_path = "/tmp/Dataset_2/Train/", "/tmp/Dataset_2/Validation/", None
   local_rank = int(os.environ['LOCAL_RANK'])
   rank = int(os.environ['RANK'])
   DEVICE = torch.device("cuda", local_rank)
@@ -207,8 +223,17 @@ def main():
     
   # same loss function as part 2 
   loss_fn = nn.CrossEntropyLoss(label_smoothing=0.1).cuda()
-  train_set, val_set, test_set = load_datasets(train_path, val_path, test_path)
-  train_dataloader, val_dataloader, test_dataloader = construct_dataloaders(train_set, val_set, test_set, hp["batch_size"], True)
+  with h5py.File('/tmp/data/Galaxy10_DECals.h5','r') as File:
+    labels = np.array(File['ans'])
+    indSub = np.where((labels==2) | (labels==5) | (labels==8))
+    images = np.array(File['images'])[indSub]
+    labels = labels[indSub]
+    d = {2:0, 5:1, 8:2}
+    mp = np.arange(0,9)
+    mp[[int(k) for k in d.keys()]] = [[int(v) for v in d.values()]]
+    labels = mp[labels]
+  train_set, val_set = load_datasets(images, labels)
+  train_dataloader, val_dataloader = construct_dataloaders(train_set, val_set, hp["batch_size"], True)
                           
   model = getResNet().to(DEVICE)
     

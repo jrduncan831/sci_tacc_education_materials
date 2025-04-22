@@ -1,12 +1,9 @@
 SOURCE_TAR=$1
 DEST_DIR=$2
 
-mkdir -p $DEST_DIR
 
-FULL_CMD="cp -r $SOURCE_TAR $DEST_DIR ; "
-FULL_CMD+="tar zxf $DEST_DIR/data.tar.gz -C $DEST_DIR; "
-FULL_CMD+="ls $DEST_DIR/Dataset_2; "
-FULL_CMD+="rm $DEST_DIR/data.tar.gz; "
+
+FULL_CMD="mkdir -p $DEST_DIR; cp -r $SOURCE_TAR $DEST_DIR/. ; "
 
 
 NODEFILE=/tmp/nodelist
