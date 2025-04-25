@@ -26,8 +26,7 @@ warnings.filterwarnings("ignore", message="torch.distributed._all_gather_base is
 # Define the GPUs that will be used in this script
 os.environ['CUDA_VISIBLE_DEVICES'] = ",".join(str(x) for x in list(range(torch.cuda.device_count())))
 
-# Apply transformations to our data.
-# The datasets transformations are the same as the ones from part 2 of this tutorial.
+# The datasets creation is the same as the one from previous.
 class MyDataset(Dataset):
     def __init__(self, data, targets, transform=None):
         self.data = data
