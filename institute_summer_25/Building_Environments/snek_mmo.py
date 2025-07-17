@@ -17,8 +17,8 @@ from textual.containers import Vertical, Horizontal
 # CONFIGURATION
 SNEK_DATA_PATH = os.environ.get("SNEK_DATA_PATH")  # <-- CHANGE THIS TO YOUR SHARED DIR
 
-# PLAYER_ID = os.environ.get("USER", f"player{random.randint(0,9999)}")
-PLAYER_ID = f"{random.randint(0,9999)}"
+PLAYER_ID = os.environ.get("USER", f"player{random.randint(0,9999)}")
+# PLAYER_ID = f"{random.randint(0,9999)}"
 PLAYER_NAME = PLAYER_ID
 GRID_WIDTH = 50
 GRID_HEIGHT = 25
