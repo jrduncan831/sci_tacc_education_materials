@@ -10,7 +10,7 @@ import random
 class SnakeGame(Widget):
     can_focus = True
     width = 50
-    height = 50
+    height = 25
 
     snake = reactive([(5, 5), (5, 4), (5, 3)])
     direction = reactive("RIGHT")
