@@ -160,4 +160,5 @@ cython_debug/
 #.idea/
 
 *gz
-CosmicAI/Linear_Regression/3dhst_master.phot.v4.1/
+3dhst_master.phot.v4.1/
+.DS_Store
