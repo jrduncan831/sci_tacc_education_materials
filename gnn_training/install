@@ -1,0 +1,20 @@
+nth to folder with jupyter notebook kernel configuration
+SRC_DIR=/home1/07980/sli4/.local/share/jupyter/kernels/gnn_training
+
+# path where local jupyter kernels are installed to
+DST_DIR=~/.local/share/jupyter/kernels/
+
+# newly create directory if copy is successful
+NEW_DIR=${DST_DIR}gnn_training
+
+
+if [ -e $NEW_DIR ]
+  then
+   echo "jupyter notebook kernel configuration already copied"
+  else
+   # make install directory
+   mkdir -p $DST_DIR
+   # copy materials to local tutorial directory
+   cp -r $SRC_DIR $DST_DIR
+fi
+
