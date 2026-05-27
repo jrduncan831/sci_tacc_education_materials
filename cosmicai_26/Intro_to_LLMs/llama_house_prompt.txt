@@ -1,0 +1,100 @@
+<style>
+.llama-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 2.4fr 0.8fr;
+  grid-template-rows: auto 65px 28px;
+  gap: 1px;
+  width: 180px;
+  margin: 40px auto;
+  position: relative;
+}
+.full-roof {
+  grid-column: 1 / -1;
+  height: 22px;
+  background: linear-gradient(45deg, #FF69B4, #FF1493);
+  border: 3px solid #C71585;
+  clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+  border-radius: 10px 10px 0 0;
+}
+.grid-wall {
+  height: 65px;
+  background: linear-gradient(#8B4513, #D2691E);
+  border-radius: 2px 0 0 2px;
+  border-right: 2px solid #654321;
+}
+.llama-btn {
+  padding: 18px 8px;
+  font-size: 22px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #4CAF50, #45a049);
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  position: relative;
+  z-index: 2;
+  transition: all 0.2s;
+}
+.llama-btn:hover { 
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #66BB6A, #4CAF50);
+}
+.llama-btn:hover::after {
+  content: "🦙 'Don't touch my grass!'";
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(45deg, #FF6B9D, #C44569);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-family: monospace;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 10;
+  animation: llama-bounce 0.3s ease-out;
+}
+@keyframes llama-bounce {
+  0% { transform: translateX(-50%) translateY(-10px); opacity: 0; }
+  100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+}
+.grid-door {
+  height: 65px;
+  background: linear-gradient(145deg, #DEB887, #CD853F);
+  border: 2px solid #8B4513;
+  border-radius: 0 0 6px 6px;
+  position: relative;
+}
+.grid-door::after {
+  content: '';
+  position: absolute;
+  right: 25%;
+  top: 35%;
+  width: 3px;
+  height: 3px;
+  background: #FFD700;
+  border-radius: 50%;
+  box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+}
+.full-floor {
+  grid-column: 1 / -1;
+  height: 28px;
+  background: linear-gradient(145deg, #D2691E, #8B4513);
+  border: 4px solid #8B4513;
+  border-top: none;
+  border-radius: 0 0 18px 18px;
+}
+</style>
+
+<div class="llama-grid">
+  <div class="full-roof"></div>
+  <div class="grid-wall"></div>
+  <button class="llama-btn">🦙 Llama</button>
+  <div class="grid-door"></div>
+  <div class="full-floor"></div>
+</div>
+
+Create a llama in a house with a random color for the llama button and a new random witty popup text for the llama button using the html styling above exactly (except for the requested changes).  Respond only with HTML.
