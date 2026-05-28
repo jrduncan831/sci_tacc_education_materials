@@ -1,5 +1,11 @@
 #!/bin/bash
 
+
+module purge
+
+# Load specific modules to match the exact target environment
+module load ucc/1.7.0 ucx/1.20.0 cmake/4.1.1 TACC gcc/15.1.0 nvpl/26.1 openmpi/5.0.5 python3/3.11.8 sqlite/3.46.1
+
 # ---- Installing Jupyter Kernel ----
 
 # path to folder with jupyter notebook kernel configuration
