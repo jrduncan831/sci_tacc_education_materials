@@ -22,7 +22,7 @@ EXAI_NAME=TACC_exAI
 EXAI_DST_PARENT=${MATERIALS_DST}/Agentic_AI
 EXAI_DST=${EXAI_DST_PARENT}/${EXAI_NAME}
 
-MODULES="ucc/1.7.0 ucx/1.20.0 cmake/4.1.1 TACC gcc/15.1.0 openmpi/5.0.5 python3/3.11.8 sqlite/3.46.1 cuda/13.1"
+MODULES="ucc/1.7.0 ucx/1.20.0 cmake/4.1.1 TACC gcc/15.1.0 openmpi/5.0.5 python3/3.11.8 sqlite/3.46.1 cuda/13.1 tacc-apptainer/1.4.1"
 
 # Backup so --uninstall can restore the user's pre-install module default.
 BACKUP_DIR=${HOME}/.cosmicai26_install
