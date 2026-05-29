@@ -16,7 +16,7 @@ from typing import NamedTuple
 import numpy as np
 import torch
 
-DEFAULT_PATH = Path(__file__).resolve().parent.parent / "data" / "cmb" / "cmb_1k.npy"
+DEFAULT_PATH = "/scratch/projects/tacc/sci-training/cosmicai_data/cmb/cmb_1k.npy"
 
 
 class ImageDataset(NamedTuple):
