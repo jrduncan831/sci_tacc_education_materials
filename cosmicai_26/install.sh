@@ -15,6 +15,12 @@ MATERIALS_NAME=cosmicai_26
 MATERIALS_DST_ROOT=${HOME}
 MATERIALS_DST=${MATERIALS_DST_ROOT}/${MATERIALS_NAME}
 
+# Extra content nested inside the materials folder; cleaned up automatically
+# when MATERIALS_DST is removed during --uninstall.
+EXAI_SRC=/scratch/projects/tacc/sci-training/TACC_exAI
+EXAI_NAME=TACC_exAI
+EXAI_DST=${MATERIALS_DST}/${EXAI_NAME}
+
 MODULES="ucc/1.7.0 ucx/1.20.0 cmake/4.1.1 TACC gcc/15.1.0 openmpi/5.0.5 python3/3.11.8 sqlite/3.46.1 cuda/13.1"
 
 # Backup so --uninstall can restore the user's pre-install module default.
@@ -156,10 +162,16 @@ install_materials() {
   log_step "Copying course materials ($MATERIALS_NAME)"
   if [ -e "$MATERIALS_DST" ]; then
     echo "Course materials already present at $MATERIALS_DST (skipping)."
-    return
+  else
+    run mkdir -p "$MATERIALS_DST_ROOT"
+    run cp -r "$MATERIALS_SRC" "$MATERIALS_DST_ROOT/"
   fi
-  run mkdir -p "$MATERIALS_DST_ROOT"
-  run cp -r "$MATERIALS_SRC" "$MATERIALS_DST_ROOT/"
+
+  if [ -e "$EXAI_DST" ]; then
+    echo "$EXAI_NAME already present at $EXAI_DST (skipping)."
+  else
+    run cp -r "$EXAI_SRC" "$MATERIALS_DST/"
+  fi
 }
 
 # ---- Uninstall steps ----
