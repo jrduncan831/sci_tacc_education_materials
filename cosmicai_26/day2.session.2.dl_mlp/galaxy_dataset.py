@@ -11,8 +11,8 @@ from typing import NamedTuple
 import numpy as np
 import torch
 
-DEFAULT_IMAGES = Path(__file__).resolve().parent.parent / "data" / "galaxy10" / "images.npy"
-DEFAULT_LABELS = Path(__file__).resolve().parent.parent / "data" / "galaxy10" / "labels.npy"
+DEFAULT_IMAGES = "/scratch/projects/tacc/sci-training/cosmicai_data/galaxy10/images.npy"
+DEFAULT_LABELS = "/scratch/projects/tacc/sci-training/cosmicai_data/galaxy10/labels.npy"
 
 # Galaxy10 SDSS morphology classes (astroNN convention).
 CLASS_NAMES = (
