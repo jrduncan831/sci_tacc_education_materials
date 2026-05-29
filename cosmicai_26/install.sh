@@ -5,7 +5,7 @@ set -eo pipefail
 
 # ---- Constants ----
 
-KERNEL_SRC=/scratch/projects/tacc/sci-training/cosmicai_2026/kernal_container/cosmicai26
+KERNEL_SRC=/scratch/projects/tacc/sci-training/cosmicai_2026/kernel_container/cosmicai26
 KERNEL_NAME=cosmicai26
 KERNEL_DST_ROOT=${HOME}/.local/share/jupyter/kernels
 KERNEL_DST=${KERNEL_DST_ROOT}/${KERNEL_NAME}
